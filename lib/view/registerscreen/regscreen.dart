@@ -11,9 +11,9 @@ class Registerscreen extends StatefulWidget {
 }
 
 class _RegisterscreenState extends State<Registerscreen> {
-  TextEditingController usernamecontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
-  String username = "";
+  String email = "";
   String password = "";
 
   @override
@@ -25,67 +25,85 @@ class _RegisterscreenState extends State<Registerscreen> {
         padding: const EdgeInsets.all(30),
         child: Center(
           child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Register page",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                TextFormField(
-                  controller: usernamecontroller,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      hintText: username,
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 10),
-                          borderRadius: BorderRadius.circular(10))),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                TextFormField(
-                  controller: passwordcontroller,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
-                      hintText: password,
-                      hintStyle: TextStyle(color: Colors.amber),
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 10),
-                          borderRadius: BorderRadius.circular(10))),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      final cred = await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: usernamecontroller.text,
-                              password: passwordcontroller.text);
-
-                      setState(() {});
+            child: Form(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Register page",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  TextFormField(
+                    controller: emailcontroller,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        hintText: email,
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10))),
+                    validator: (value) {
+                      if (RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(emailcontroller.text)) {
+                        return null;
+                      } else {
+                        return "enter a valid email";
+                      }
                     },
-                    child: Text("register")),
-                Text(
-                  username,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  password,
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    controller: passwordcontroller,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        hintText: password,
+                        hintStyle: TextStyle(color: Colors.amber),
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10))),
+                    validator: (value) {
+                      if (value != null && value.length >= 6) {
+                        return null;
+                      } else {
+                        return "enter a valid password";
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        final cred = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailcontroller.text,
+                                password: passwordcontroller.text);
+
+                        setState(() {});
+                      },
+                      child: Text("register")),
+                  Text(
+                    email,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    password,
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
             ),
           ),
         ),
