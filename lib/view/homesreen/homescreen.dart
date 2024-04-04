@@ -3,14 +3,14 @@
 import 'package:appdrawerflutter/view/registerscreen/regscreen.dart';
 import 'package:flutter/material.dart';
 
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+class Loginscreen extends StatefulWidget {
+  const Loginscreen({super.key});
 
   @override
-  State<Homescreen> createState() => _HomescreenState();
+  State<Loginscreen> createState() => _LoginscreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
+class _LoginscreenState extends State<Loginscreen> {
   TextEditingController usernamecontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   String username = "";
